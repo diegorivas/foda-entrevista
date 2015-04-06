@@ -25,25 +25,31 @@ def split_bill(price, discount, people):
         s.append(monto * price);
     return s
 
+def sum(summands):
+    result = 0.0
+    for summand in summands:
+        result = result + summand
+    return round(result, 2)
+    
 class SplitBillTestCase(unittest.TestCase):
     def setUp(self):
         return
 
     def test_wrong_split(self):
         s = split_bill(price=149.99, discount=15, people=[(1 / 2.0), (1 / 6.0), (1 / 6.0), (1 / 6.0)])
-        s = round(sum(s), 2)
+        s = sum(s)
         self.assertEquals(s, 127.49)
 
     def test_right_sum(self):
         s = split_bill(price=149.99, discount=15, people=[(1 / 7.0), (2 / 7.0), (1 / 7.0), (3 / 7.0)])
-        s = round(sum(s), 2)
+        s = sum(s)
         self.assertEquals(s, 127.49)
 
     def wrong_sum(self):
         s = split_bill(price=1, discount=0,
                        people=[(1 / 10.0), (1 / 10.0), (1 / 10.0), (1 / 10.0), (1 / 10.0),
                                (1 / 10.0), (1 / 10.0), (1 / 10.0), (1 / 10.0), (1 / 10.0)])
-        s = round(sum(s), 2)
+        s = sum(s)
         self.assertEquals(s, 1)
 
 import sys
