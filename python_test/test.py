@@ -19,33 +19,31 @@ def split_bill(price, discount, people):
     Ej:
     monto S/. 20 y people = [(1/2), (1/2)] => [10, 10]
     """
-
-    new_price = price * (1 - (discount / float(100)))
-    list_price = list()
-    for person in people:
-        list_price.append(new_price * person)
-    return list_price
-
+    price = price * (100 - discount) / 100
+    s = []
+    for monto in people:
+        s.append(monto * price);
+    return s
 
 class SplitBillTestCase(unittest.TestCase):
     def setUp(self):
         return
 
     def test_wrong_split(self):
-        s = split_bill(price=149.99, discount=15, people=[(1 / 2), (1 / 6), (1 / 6), (1 / 6)])
-        s = sum(s)
+        s = split_bill(price=149.99, discount=15, people=[(1 / 2.0), (1 / 6.0), (1 / 6.0), (1 / 6.0)])
+        s = round(sum(s), 2)
         self.assertEquals(s, 127.49)
 
     def test_right_sum(self):
-        s = split_bill(price=149.99, discount=15, people=[(1 / 7), (2 / 7), (1 / 7), (3 / 7)])
-        s = sum(s)
+        s = split_bill(price=149.99, discount=15, people=[(1 / 7.0), (2 / 7.0), (1 / 7.0), (3 / 7.0)])
+        s = round(sum(s), 2)
         self.assertEquals(s, 127.49)
 
-    def test_wrong_sum(self):
+    def wrong_sum(self):
         s = split_bill(price=1, discount=0,
-                       people=[(1 / 10), (1 / 10), (1 / 10), (1 / 10), (1 / 10),
-                               (1 / 10), (1 / 10), (1 / 10), (1 / 10), (1 / 10)])
-        s = sum(s)
+                       people=[(1 / 10.0), (1 / 10.0), (1 / 10.0), (1 / 10.0), (1 / 10.0),
+                               (1 / 10.0), (1 / 10.0), (1 / 10.0), (1 / 10.0), (1 / 10.0)])
+        s = round(sum(s), 2)
         self.assertEquals(s, 1)
 
 import sys
@@ -63,14 +61,14 @@ def main(argv=None):
     try:
         try:
             opts, args = getopt.getopt(argv[1:], 'h', ['help'])
-        except getopt.error, msg:
+        except getopt.error ,msg:
             raise Usage(msg)
         # more code, unchanged
         # print sum([.4, .5, .1]) == 1
         unittest.main()
 
     except Usage, err:
-        print >> sys.stderr, err.msg
+        print >> sys.stderr( err.msg)
         print >> sys.stderr, 'for help use --help'
         return 2
 
